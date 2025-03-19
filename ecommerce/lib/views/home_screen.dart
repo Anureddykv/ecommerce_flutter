@@ -237,8 +237,6 @@ class _ProductCardState extends State<ProductCard> {
                     fit: BoxFit.cover,
                   ),
                 ),
-
-                /// Favorite Icon (Top Right)
                 Positioned(
                   top: 8,
                   right: 8,
@@ -286,7 +284,6 @@ class _ProductCardState extends State<ProductCard> {
                   style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
                 ),
 
-                /// Rating with Star Icon
                 Row(
                   children: [
                     Icon(Icons.star, color: Colors.orange, size: 14),
