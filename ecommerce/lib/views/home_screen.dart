@@ -187,6 +187,7 @@ class CategoryItem extends StatelessWidget {
     return text[0].toUpperCase() + text.substring(1);
   }
 }
+
 class ProductCard extends StatefulWidget {
   final Map<String, dynamic> product;
 
@@ -197,7 +198,7 @@ class ProductCard extends StatefulWidget {
 }
 
 class _ProductCardState extends State<ProductCard> {
-  bool isFavorite = false; // 🔹 Track favorite state
+  bool isFavorite = false; // Favorite state
 
   @override
   Widget build(BuildContext context) {
@@ -210,62 +211,98 @@ class _ProductCardState extends State<ProductCard> {
           ),
         );
       },
-      child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 8),
-        child: Container(
-          width: 150,
-          padding: EdgeInsets.all(10),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(12),
-            boxShadow: [
-              BoxShadow(color: Colors.black12, blurRadius: 4, spreadRadius: 2),
-            ],
-          ),
-          child: Stack(
-            children: [
-              /// 🔹 Product Image
-              ClipRRect(
-                borderRadius: BorderRadius.circular(8),
-                child: Image.network(
-                  widget.product['image'],
-                  height: 200,
-                  width: double.infinity,
-                  fit: BoxFit.fill,
+      child: Container(
+        width: 160,
+        margin: EdgeInsets.symmetric(horizontal: 8),
+        padding: EdgeInsets.all(8),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(12),
+          boxShadow: [
+            BoxShadow(color: Colors.black12, blurRadius: 4, spreadRadius: 2),
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Stack(
+              children: [
+                /// Rounded Image
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: Image.network(
+                    widget.product['image'],
+                    height: 200,
+                    width: double.infinity,
+                    fit: BoxFit.cover,
+                  ),
                 ),
-              ),
 
-              /// 🔹 Heart Icon Button (Toggles on Click)
-              Positioned(
-                top: 8,
-                right: 8,
-                child: GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      isFavorite = !isFavorite; // 🔹 Toggle favorite state
-                    });
-                  },
-                  child: Container(
-                    padding: EdgeInsets.all(6),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      shape: BoxShape.circle,
-                      boxShadow: [
-                        BoxShadow(color: Colors.black12, blurRadius: 4, spreadRadius: 2),
-                      ],
-                    ),
-                    child: Icon(
-                      isFavorite ? Icons.favorite : Icons.favorite_border, // 🔹 Toggle icon
-                      color: isFavorite ? Colors.red : Colors.brown, // 🔹 Toggle color
-                      size: 22,
+                /// Favorite Icon (Top Right)
+                Positioned(
+                  top: 8,
+                  right: 8,
+                  child: GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        isFavorite = !isFavorite;
+                      });
+                    },
+                    child: Container(
+                      padding: EdgeInsets.all(6),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        shape: BoxShape.circle,
+                        boxShadow: [
+                          BoxShadow(color: Colors.black12, blurRadius: 4, spreadRadius: 2),
+                        ],
+                      ),
+                      child: Icon(
+                        isFavorite ? Icons.favorite : Icons.favorite_border,
+                        color: isFavorite ? Colors.red : Colors.grey,
+                        size: 22,
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ],
-          ),
+              ],
+            ),
+
+            SizedBox(height: 10),
+            Text(
+              widget.product['title'],
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+            ),
+
+            SizedBox(height: 4),
+
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  "\$${widget.product['price']}",
+                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                ),
+
+                /// Rating with Star Icon
+                Row(
+                  children: [
+                    Icon(Icons.star, color: Colors.orange, size: 14),
+                    SizedBox(width: 3),
+                    Text(
+                      "${widget.product['rating']['rate']}",
+                      style: TextStyle(fontSize: 12),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ],
         ),
       ),
     );
   }
 }
+
