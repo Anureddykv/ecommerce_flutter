@@ -16,8 +16,8 @@ class HomeScreen extends ConsumerWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        child: ListView(
+          padding: EdgeInsets.zero,
           children: [
             HeaderSection(),
               BannerSlider(),
@@ -69,6 +69,7 @@ class HomeScreen extends ConsumerWidget {
                 data: (products) {
                   final filteredProducts = _filterProducts(products, selectedTab);
                   return GridView.builder(
+                    shrinkWrap: true,physics: NeverScrollableScrollPhysics(),
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
@@ -198,7 +199,7 @@ class ProductCard extends StatefulWidget {
 }
 
 class _ProductCardState extends State<ProductCard> {
-  bool isFavorite = false; // Favorite state
+  bool isFavorite = false;
 
   @override
   Widget build(BuildContext context) {
@@ -237,6 +238,8 @@ class _ProductCardState extends State<ProductCard> {
                     fit: BoxFit.cover,
                   ),
                 ),
+
+                /// Favorite Icon (Top Right)
                 Positioned(
                   top: 8,
                   right: 8,
@@ -284,6 +287,7 @@ class _ProductCardState extends State<ProductCard> {
                   style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
                 ),
 
+                /// Rating with Star Icon
                 Row(
                   children: [
                     Icon(Icons.star, color: Colors.orange, size: 14),
