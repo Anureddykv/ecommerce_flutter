@@ -16,75 +16,84 @@ class HomeScreen extends ConsumerWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
-        child: ListView(
-          padding: EdgeInsets.zero,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            HeaderSection(),
-              BannerSlider(),
-            // Category Section
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text("Category", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-                  Text("See All", style: TextStyle(fontSize: 14, color: Colors.brown)),
-                ],
-              ),
-            ),
-        categoriesAsync.when(
-          data: (categories) => Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16),
-            child: Wrap(
-              spacing: 16,
-              runSpacing: 10,
-              alignment: WrapAlignment.center,
-              children: categories.map((category) => CategoryItem(category: category)).toList(),
-            ),
-          ),
-          loading: () => Center(child: CircularProgressIndicator()),
-          error: (err, stack) => Center(child: Text("Error loading categories")),
-        ),
-
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text("Flash Sale", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-                  Row(
-                    children: [
-                      Text("Closing in : ", style: TextStyle(fontSize: 14, color: Colors.grey)),
-                      _buildTimer(),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(height: 16,),
-            FlashSaleTabs(),
-            SizedBox(height: 16,),
+            HeaderSection(), // Fixed Header
             Expanded(
-              child: productsAsync.when(
-                data: (products) {
-                  final filteredProducts = _filterProducts(products, selectedTab);
-                  return GridView.builder(
-                    shrinkWrap: true,physics: NeverScrollableScrollPhysics(),
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      crossAxisSpacing: 10.0,
-                      mainAxisSpacing: 10.0,
-                      childAspectRatio: 0.7, // Controls height vs width
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    BannerSlider(),
+                    // Category Section
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text("Category", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                          Text("See All", style: TextStyle(fontSize: 14, color: Colors.brown)),
+                        ],
+                      ),
                     ),
-                    itemCount: filteredProducts.length,
-                    itemBuilder: (context, index) {
-                      return ProductCard(product: filteredProducts[index]);
-                    },
-                  );
-                },
-                loading: () => const Center(child: CircularProgressIndicator()),
-                error: (err, stack) => const Center(child: Text("Error loading products")),
+                    categoriesAsync.when(
+                      data: (categories) => Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 16),
+                        child: Wrap(
+                          spacing: 16,
+                          runSpacing: 10,
+                          alignment: WrapAlignment.center,
+                          children: categories.map((category) => CategoryItem(category: category)).toList(),
+                        ),
+                      ),
+                      loading: () => Center(child: CircularProgressIndicator()),
+                      error: (err, stack) => Center(child: Text("Error loading categories")),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text("Flash Sale", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                          Row(
+                            children: [
+                              Text("Closing in : ", style: TextStyle(fontSize: 14, color: Colors.grey)),
+                              _buildTimer(),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 16),
+                    FlashSaleTabs(),
+                    SizedBox(height: 16),
+                    productsAsync.when(
+                      data: (products) {
+                        final filteredProducts = _filterProducts(products, selectedTab);
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 16),
+                          child: GridView.builder(
+                            shrinkWrap: true,
+                            physics: NeverScrollableScrollPhysics(), // Disable inner scrolling
+                            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                              crossAxisSpacing: 10.0,
+                              mainAxisSpacing: 10.0,
+                              childAspectRatio: 0.7,
+                            ),
+                            itemCount: filteredProducts.length,
+                            itemBuilder: (context, index) {
+                              return ProductCard(product: filteredProducts[index]);
+                            },
+                          ),
+                        );
+                      },
+                      loading: () => const Center(child: CircularProgressIndicator()),
+                      error: (err, stack) => const Center(child: Text("Error loading products")),
+                    ),
+                  ],
+                ),
               ),
             ),
           ],
@@ -92,6 +101,7 @@ class HomeScreen extends ConsumerWidget {
       ),
     );
   }
+
   Widget _buildTimer() {
     return Row(
       children: [
@@ -115,7 +125,6 @@ class HomeScreen extends ConsumerWidget {
     );
   }
 
-
   List<Map<String, dynamic>> _filterProducts(List<Map<String, dynamic>> products, int selectedTab) {
     switch (selectedTab) {
       case 1:
@@ -129,10 +138,9 @@ class HomeScreen extends ConsumerWidget {
       default:
         return products; // Show all products
     }
-
   }
-
 }
+
 class CategoryItem extends StatelessWidget {
   final String category;
 
