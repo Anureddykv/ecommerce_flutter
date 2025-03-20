@@ -55,143 +55,145 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
         ),
       ),
       body: productDetailsAsync.when(
-        data: (product) => Padding(
-          padding: EdgeInsets.all(16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Center(
-                child: Image.network(
-                  product["image"],
-                  height: 200,
-                  fit: BoxFit.cover,
+        data: (product) => SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.all(16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Center(
+                  child: Image.network(
+                    product["image"],
+                    height: 200,
+                    fit: BoxFit.cover,
+                  ),
                 ),
-              ),
-              SizedBox(height: 20),
-              ProductImageGallery(imageUrls: [
-                product["image"],
-                "https://fakestoreapi.com/img/71li-ujtlUL._AC_UX679_.jpg",
-                "https://fakestoreapi.com/img/71YXzeOuslL._AC_UY879_.jpg",
-                "https://fakestoreapi.com/img/71pWzhdJNwL._AC_UL640_QL65_ML3_.jpg",
-                "https://fakestoreapi.com/img/61sbMiUnoGL._AC_UL640_QL65_ML3_.jpg"
-              ]),
-
-              /// Product Info with Rating
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    product["category"],
-                    style: TextStyle(fontSize: 14, color: Colors.grey[600]),
-                  ),
-                  Row(
-                    children: [
-                      Icon(Icons.star, color: Colors.orange, size: 18),
-                      SizedBox(width: 4),
-                      Text(
-                        "4.5",
-                        style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-              SizedBox(height: 5),
-              Text(
-                product["title"],
-                style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-              ),
-              SizedBox(height: 10),
-
-              /// Product Details
-              Text(
-                "Product Details",
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-              ),
-              SizedBox(height: 5),
-              Text(
-                product["description"],
-                style: TextStyle(fontSize: 14, color: Colors.black),
-              ),
-              SizedBox(height: 15),
-
-              /// Select Size
-              Text(
-                "Select Size",
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-              ),
-              SizedBox(height: 8),
-              Row(
-                children: ["S", "M", "L", "XL", "XXL", "XXXL"].map((size) {
-                  return Padding(
-                    padding: const EdgeInsets.only(right: 8),
-                    child: GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          selectedSize = size;
-                        });
-                      },
-                      child: Container(
-                        padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                        decoration: BoxDecoration(
-                          color: selectedSize == size ? Colors.brown : Colors.white,
-                          border: Border.all(color: Colors.grey.shade300),
-                          borderRadius: BorderRadius.circular(8),
+                SizedBox(height: 20),
+                ProductImageGallery(imageUrls: [
+                  product["image"],
+                  "https://fakestoreapi.com/img/71li-ujtlUL._AC_UX679_.jpg",
+                  "https://fakestoreapi.com/img/71YXzeOuslL._AC_UY879_.jpg",
+                  "https://fakestoreapi.com/img/71pWzhdJNwL._AC_UL640_QL65_ML3_.jpg",
+                  "https://fakestoreapi.com/img/61sbMiUnoGL._AC_UL640_QL65_ML3_.jpg"
+                ]),
+          
+                /// Product Info with Rating
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      product["category"],
+                      style: TextStyle(fontSize: 14, color: Colors.grey[600]),
+                    ),
+                    Row(
+                      children: [
+                        Icon(Icons.star, color: Colors.orange, size: 18),
+                        SizedBox(width: 4),
+                        Text(
+                          "4.5",
+                          style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
                         ),
-                        child: Text(
-                          size,
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
-                            color: selectedSize == size ? Colors.white : Colors.black,
+                      ],
+                    ),
+                  ],
+                ),
+                SizedBox(height: 5),
+                Text(
+                  product["title"],
+                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                ),
+                SizedBox(height: 10),
+          
+                /// Product Details
+                Text(
+                  "Product Details",
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                ),
+                SizedBox(height: 5),
+                Text(
+                  product["description"],
+                  style: TextStyle(fontSize: 14, color: Colors.black),
+                ),
+                SizedBox(height: 15),
+          
+                /// Select Size
+                Text(
+                  "Select Size",
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                ),
+                SizedBox(height: 8),
+                Row(
+                  children: ["S", "M", "L", "XL", "XXL", "XXXL"].map((size) {
+                    return Padding(
+                      padding: const EdgeInsets.only(right: 8),
+                      child: GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            selectedSize = size;
+                          });
+                        },
+                        child: Container(
+                          padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                          decoration: BoxDecoration(
+                            color: selectedSize == size ? Colors.brown : Colors.white,
+                            border: Border.all(color: Colors.grey.shade300),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: Text(
+                            size,
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                              color: selectedSize == size ? Colors.white : Colors.black,
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  );
-                }).toList(),
-              ),
-              SizedBox(height: 15),
-
-              /// Select Color
-              Text(
-                "Select Color",
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-              ),
-              SizedBox(height: 8),
-              Row(
-                children: [
-                  Colors.brown.shade200,
-                  Colors.brown.shade300,
-                  Colors.brown.shade400,
-                  Colors.brown.shade500,
-                  Colors.brown,
-                  Colors.black,
-                ].map((color) {
-                  return GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        selectedColor = color;
-                      });
-                    },
-                    child: Container(
-                      margin: EdgeInsets.only(right: 8),
-                      width: 30,
-                      height: 30,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: color,
-                        border: Border.all(
-                          color: selectedColor == color ? Colors.black : Colors.transparent,
-                          width: 2,
+                    );
+                  }).toList(),
+                ),
+                SizedBox(height: 15),
+          
+                /// Select Color
+                Text(
+                  "Select Color",
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                ),
+                SizedBox(height: 8),
+                Row(
+                  children: [
+                    Colors.brown.shade200,
+                    Colors.brown.shade300,
+                    Colors.brown.shade400,
+                    Colors.brown.shade500,
+                    Colors.brown,
+                    Colors.black,
+                  ].map((color) {
+                    return GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          selectedColor = color;
+                        });
+                      },
+                      child: Container(
+                        margin: EdgeInsets.only(right: 8),
+                        width: 30,
+                        height: 30,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: color,
+                          border: Border.all(
+                            color: selectedColor == color ? Colors.black : Colors.transparent,
+                            width: 2,
+                          ),
                         ),
                       ),
-                    ),
-                  );
-                }).toList(),
-              ),
-              SizedBox(height: 20),
-            ],
+                    );
+                  }).toList(),
+                ),
+                SizedBox(height: 20),
+              ],
+            ),
           ),
         ),
         loading: () => Center(child: CircularProgressIndicator()),
