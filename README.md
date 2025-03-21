@@ -23,4 +23,4 @@ git clone https://github.com/Anureddykv/ecommerce_flutter.git
 cd ecommerce_flutter
 flutter pub get
 flutter run
->>>>>>> main
+
